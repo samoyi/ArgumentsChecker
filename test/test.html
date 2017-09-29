@@ -6,41 +6,20 @@
 </head>
 <body>
 </body>
-<script src="ArgumentsChecker.js"></script>
+<script src="../src/ArgumentsChecker.js"></script>
 <script>
 "use strict";
 
-// let checker = new ArgumentsChecker();
-//
-// function foo(){
-//     let sFunctionName = 'foo',
-//         aArguments = arguments,
-//         nExpectedAmount = 3;
-//     checker.amount(aArguments, nExpectedAmount);
-// }
-//
-// foo(3);
+let checker = new ArgumentsChecker(1);
 
-
-
-
-// function getTypeWithLowerCase( checked ){
-//     console.log(checked)
-//     var sType = Object.prototype.toString.call(checked).slice(8, -1);
-//     return sType.toLowerCase();
-// }
-// foo()
-// function foo(){
-//     let checked = [...arguments];
-//
-//     console.log(getTypeWithLowerCase(checked));
-// }
 
 
 
 let checked = 'arguments';
-console.log(Object.prototype.toString.call(checked));
-
+function foo(num, str, arr){
+    checker.get(arguments).amount(3).type(['number', 'string', 'array']);
+}
+foo(3, '3', [3]);
 
 </script>
 </html>
