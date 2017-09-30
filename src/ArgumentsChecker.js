@@ -1,37 +1,56 @@
-;"use strict";
-
-/*
- * 支持链式调用。但如果调用链某个方法报错后就不会执行后面的方法
- * 构造函数传参true或等值于true，则抛出错误是同时alert错误，便于在微信环境上查看错误
- */
-
 function ArgumentsChecker( bAlert )
 {
+	"use strict";
 
-	// get type of checked with lower case
-	function getTypeWithLowerCase( checked ){
+
+	// Get type of checked with lower case
+	const getTypeWithLowerCase = ( checked )=>{
 		return Object.prototype.toString.call(checked).slice(8, -1).toLowerCase();
 	}
 
+
+	// Stringify arguments array with a readable form
+	const argsToString = ()=>{
+		return this.args.map((arg)=>{
+			if( typeof arg === 'object' ){
+				return getTypeWithLowerCase(arg);
+			}
+			else{
+				switch(typeof arg){
+					case 'string':     return '"' + arg + '"';
+					case 'undefined':  return 'undefined';
+					case 'null':       return 'null';
+					default:           return arg;
+				}
+			}
+		});
+	}
+
+
 	// Throw Error
+	/*
+	 * If ArgumentsChecker was instantiated with a argument of true, there will
+	 *     also be a alert popup which contains same information as thrown Error
+	 */
 	const throwErr = ( sErr )=>{
-		// TODO 错误信息中的参数显示无法显示数字字符串的字符串形式
-		let sArgs = ' Arguments: [' + [...this.args].toString() + ']';
-		if( bAlert ){
-			alert( sErr + sArgs );
-		}
+		let sArgs = ' Arguments: [' + argsToString() + ']';
+		if( bAlert ){ alert( sErr + sArgs ); }
 		throw new Error( sErr + sArgs );
 	}
 
+
+
+	// Method in prototype
 	if (typeof this.amount != 'function')
 	{
-		//
-		ArgumentsChecker.prototype.get = (aArguments)=>{
-			this.args = aArguments;
+		// Get arguments object
+		ArgumentsChecker.prototype.get = (oArguments)=>{
+			this.args = [...oArguments];
 			return this;
 		};
 
-		// If arguments amount is less than nExpected, throw an error
+
+		// Check arguments amount
 		ArgumentsChecker.prototype.amount = (nExpected)=>{
 			let nArgumentsLength = this.args.length;
 			if( nArgumentsLength < nExpected ){
@@ -42,12 +61,9 @@ function ArgumentsChecker( bAlert )
 
 
 		// Check arguments type
-		ArgumentsChecker.prototype.type = (aExpected)=>{
-			;"use strict";
+		ArgumentsChecker.prototype.types = (aExpected)=>{
 			aExpected.forEach((type, index)=>{
-				;"use strict";
 				if(type){
-					console.log(this); // TODO 如果不用箭头函数，这里为什么是 Window
 					let sGivenType =  getTypeWithLowerCase(this.args[index]);
 					if( type.toLowerCase() !== sGivenType ){
 						throwErr( "ArgumentsChecker: Expects " + type + ", " + sGivenType + " given." );

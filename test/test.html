@@ -8,18 +8,12 @@
 </body>
 <script src="../src/ArgumentsChecker.js"></script>
 <script>
-"use strict";
 
 let checker = new ArgumentsChecker(1);
-
-
-
-
-let checked = 'arguments';
 function foo(num, str, arr){
-    checker.get(arguments).amount(3).type(['number', 'string', 'array']);
+    checker.get(arguments).amount(100).types(['number', 'string', 'array']);
 }
-foo(3, '3', [3]);
+foo(false, NaN, null, function(){}, undefined, '', '   ', 0, '0', 55, '55', [], {}, new Date, new Map);
 
 </script>
 </html>

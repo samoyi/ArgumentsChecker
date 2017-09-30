@@ -15,7 +15,7 @@ gulp.task('compile', function(){
     gulp.src('./src/ArgumentsChecker.js')
         .pipe(babel({presets: ['env']}))
         .pipe(uglify().on('error', gutil.log))
-        .pipe(gulp.dest('./dest'));
+        .pipe(gulp.dest('./dest/ArgumentsChecker.min.js'));
 });
 gulp.task('default',function(){
     gulp.watch('./src/ArgumentsChecker.js',['compile']);
