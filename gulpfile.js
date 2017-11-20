@@ -2,7 +2,7 @@
 
 const gulp = require('gulp'),
     uglify = require('gulp-uglify'),
-    gutil = require('gulp-util'), // 执行 uglify 任务是如果发现错误可以显示错误位置
+    gutil = require('gulp-util'),
     rename = require('gulp-rename'),
     babel = require('gulp-babel');
 
