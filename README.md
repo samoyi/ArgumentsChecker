@@ -36,7 +36,6 @@ checker.get(arguments).amount(5).types(['number', null, 'array', 'object']);
 const checker = new ArgumentsChecker();
 
 function foo(num, str, arr){
-    // Expects at least 4 arguments
     checker.get(arguments).amount(5).types(['number', null, 'array', 'object']);
 }
 
