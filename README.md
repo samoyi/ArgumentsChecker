@@ -1,28 +1,37 @@
 # ArgumentsChecker
-
 *Make sure a function accepts expected parameters with correct amount and types*
 
+
 ## Usage
+Create an instance:
 ```js
-// Create an instance
 const checker = new ArgumentsChecker();
+```
 
-// Create an instance, an alert will pop up which contains same information as
-// thrown error in console
+Create an instance, an alert will pop up which contains same information as
+thrown error in console:
+```js
 const checker = new ArgumentsChecker(true);
+```
 
-// At leat 4 arguments
+At least 4 arguments:
+```js
 checker.get(arguments).amount(4);
+```
 
-// The first 2 arguments must be array and string
+The first 2 arguments must be array and string:
+```js
 checker.get(arguments).types(['array', 'string']);
+```
 
-// At leat 5 arguments, the first must be number, third must be string, fouth
-// must be plain object. The second can be any type.
+At least 5 arguments, the first must be a number, third must be a string, the
+fouth must be a plain object. The second can be any type.
+```js
 checker.get(arguments).amount(5).types(['number', null, 'array', 'object']);
 ```
 
-**Example:**
+
+## Example
 ```js
 const checker = new ArgumentsChecker();
 
@@ -34,7 +43,7 @@ function foo(num, str, arr){
 foo(false, 'NaN', {});
 ```
 
-**Console:**
+*Console:*
 ```
 ArgumentsChecker: Expects at least 5 arguments, 4 given.
  Error
