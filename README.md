@@ -46,21 +46,21 @@ foo(false, 'NaN', {});
 ```
 ArgumentsChecker: Expects at least 5 arguments, 4 given.
  Error
-    at foo (file:///E:/lining/WWW/gits/ArgumentsChecker/test/test.html:15:28)
-    at file:///E:/lining/WWW/gits/ArgumentsChecker/test/test.html:18:1
+    at foo (//path2file/test.html:15:28)
+    at //path2file/test.html:18:1
 
 ArgumentsChecker: argument 0 expects number, boolean given.
  Error
-    at foo (file:///E:/lining/WWW/gits/ArgumentsChecker/test/test.html:15:38)
-    at file:///E:/lining/WWW/gits/ArgumentsChecker/test/test.html:18:1
+    at foo (//path2file/test.html:15:38)
+    at //path2file/test.html:18:1
 
 ArgumentsChecker: argument 2 expects array, string given.
  Error
-    at foo (file:///E:/lining/WWW/gits/ArgumentsChecker/test/test.html:15:38)
-    at file:///E:/lining/WWW/gits/ArgumentsChecker/test/test.html:18:1
+    at foo (//path2file/test.html:15:38)
+    at //path2file/test.html:18:1
 
 ArgumentsChecker: argument 3 expects plain object, array given.
  Error
-    at foo (file:///E:/lining/WWW/gits/ArgumentsChecker/test/test.html:15:38)
-    at file:///E:/lining/WWW/gits/ArgumentsChecker/test/test.html:18:1
+    at foo (//path2file/test.html:15:38)
+    at //path2file/test.html:18:1
  ```
