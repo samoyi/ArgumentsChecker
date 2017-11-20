@@ -1,10 +1,9 @@
-function ArgumentsChecker( bAlert )
+function ArgumentsChecker(bAlert)
 {
 	"use strict";
 
-
 	// Get type of checked with lower case
-	const getTypeWithLowerCase = ( checked )=>{
+	const getTypeWithLowerCase = (checked)=>{
 		return Object.prototype.toString.call(checked).slice(8, -1).toLowerCase();
 	}
 
@@ -12,7 +11,7 @@ function ArgumentsChecker( bAlert )
 	// Stringify arguments array with a readable form
 	const argsToString = ()=>{
 		return this.args.map((arg)=>{
-			if( typeof arg === 'object' ){
+			if(typeof arg === 'object'){
 				return getTypeWithLowerCase(arg);
 			}
 			else{
@@ -30,17 +29,46 @@ function ArgumentsChecker( bAlert )
 	// Throw Error
 	/*
 	 * If ArgumentsChecker was instantiated with a argument of true, there will
-	 *     also be a alert popup which contains same information as thrown Error
+	 * also be an alert popup which contains same information as thrown Error
 	 */
-	const throwErr = ( sErr )=>{
-		let sArgs = ' Arguments: [' + argsToString() + ']';
-		if( bAlert ){ alert( sErr + sArgs ); }
-		throw new Error( sErr + sArgs );
+	let throwErr = null;
+	if(Error.captureStackTrace){
+		let oForStack = {};
+		if(bAlert){
+			throwErr = (sErr, fnCaller)=>{
+				let sArgs = ' Arguments: [' + argsToString() + ']';
+				alert(sErr, '\n', oForStack.stack);
+				Error.captureStackTrace(oForStack, fnCaller);
+				console.error(sErr, '\n', oForStack.stack);
+			}
+		}
+		else{
+			throwErr = (sErr, fnCaller)=>{
+				let sArgs = ' Arguments: [' + argsToString() + ']';
+				Error.captureStackTrace(oForStack, fnCaller);
+				console.error(sErr, '\n', oForStack.stack);
+			}
+		}
+	}
+	else{
+		if(bAlert){
+			throwErr = (sErr)=>{
+				let sArgs = ' Arguments: [' + argsToString() + ']';
+				alert( sErr + sArgs );
+				throw new Error( sErr + sArgs );
+			}
+		}
+		else{
+			throwErr = (sErr)=>{
+				let sArgs = ' Arguments: [' + argsToString() + ']';
+				throw new Error(sErr + sArgs);
+			}
+		}
 	}
 
 
 
-	// Method in prototype
+	// Methods in prototype
 	if (typeof this.amount != 'function')
 	{
 		// Get arguments object
@@ -53,8 +81,8 @@ function ArgumentsChecker( bAlert )
 		// Check arguments amount
 		ArgumentsChecker.prototype.amount = (nExpected)=>{
 			let nArgumentsLength = this.args.length;
-			if( nArgumentsLength < nExpected ){
-				throwErr( "ArgumentsChecker: Expects at least " + nExpected + " arguments, " + nArgumentsLength + " given." );
+			if(nArgumentsLength < nExpected){
+				throwErr("ArgumentsChecker: Expects at least " + nExpected + " arguments, " + nArgumentsLength + " given.", ArgumentsChecker.prototype.amount);
 			}
 			return this;
 		};
@@ -65,8 +93,13 @@ function ArgumentsChecker( bAlert )
 			aExpected.forEach((type, index)=>{
 				if(type){
 					let sGivenType =  getTypeWithLowerCase(this.args[index]);
-					if( type.toLowerCase() !== sGivenType ){
-						throwErr( "ArgumentsChecker: Expects " + type + ", " + sGivenType + " given." );
+
+					if(type.toLowerCase() !== sGivenType){
+
+						if(type==='object'){type='plain object'};
+						if(sGivenType==='object'){sGivenType='plain object'};
+
+						throwErr("ArgumentsChecker: argument " +index+ " expects " + type + ", " + sGivenType + " given.", ArgumentsChecker.prototype.types);
 					}
 				}
 			});
