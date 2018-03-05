@@ -1,8 +1,10 @@
-function ArgumentsChecker(bAlert)
-{
-	"use strict";
+a = 22;
+console.log(a);
 
-	// Get type of checked with lower case
+function ArgumentsChecker(oCustomTypes={})
+{
+
+	// Get type string of checked with lower case
 	const getTypeWithLowerCase = (checked)=>{
 		return Object.prototype.toString.call(checked).slice(8, -1).toLowerCase();
 	}
@@ -34,42 +36,56 @@ function ArgumentsChecker(bAlert)
 	let throwErr = null;
 	if(Error.captureStackTrace){
 		let oForStack = {};
-		if(bAlert){
-			throwErr = (sErr, fnCaller)=>{
-				let sArgs = ' Arguments: [' + argsToString() + ']';
-				alert(sErr, '\n', oForStack.stack);
-				Error.captureStackTrace(oForStack, fnCaller);
-				console.error(sErr, '\n', oForStack.stack);
-			}
-		}
-		else{
-			throwErr = (sErr, fnCaller)=>{
-				let sArgs = ' Arguments: [' + argsToString() + ']';
-				Error.captureStackTrace(oForStack, fnCaller);
-				console.error(sErr, '\n', oForStack.stack);
-			}
+		throwErr = (sErr, fnCaller)=>{
+			let sArgs = ' Arguments: [' + argsToString() + ']';
+			Error.captureStackTrace(oForStack, fnCaller);
+			console.error(sErr, '\n', oForStack.stack);
 		}
 	}
 	else{
-		if(bAlert){
-			throwErr = (sErr)=>{
-				let sArgs = ' Arguments: [' + argsToString() + ']';
-				alert( sErr + sArgs );
-				throw new Error( sErr + sArgs );
-			}
-		}
-		else{
-			throwErr = (sErr)=>{
-				let sArgs = ' Arguments: [' + argsToString() + ']';
-				throw new Error(sErr + sArgs);
-			}
+		throwErr = (sErr)=>{
+			let sArgs = ' Arguments: [' + argsToString() + ']';
+			throw new Error(sErr + sArgs);
 		}
 	}
 
 
+	// aCustomTypeCheckFn.forEach(fn=>{
+	// 	oCustomTypes[]
+	// });
+	oCustomTypes = Object.assign(oCustomTypes, {
+		strArr(){
+			if(!Array.isArray(arg)){
+				return false;
+			}
+			return arg.every(item=>typeof item === 'string');
+		},
+		numArr(arg){
+			if(!Array.isArray(arg)){
+				return false;
+			}
+			return arg.every(item=>typeof item === 'number');
+		},
+		intArr(arg){
+			if(!Array.isArray(arg)){
+				return false;
+			}
+			return arg.every(item=>Number.isInteger(item));
+		},
+		int(arg){
+			return Number.parseInt(arg) === arg;
+		},
+		intStr(arg){
+			return Number.parseInt(arg) + '' === arg;
+		},
+		nonEmptyStr(arg){
+			if(typeof arg !== 'string') return false;
+			return arg.trim().length !== 0;
+		}
+	});
 
 	// Methods in prototype
-	if (typeof this.amount != 'function')
+	if (typeof this.amount !== 'function')
 	{
 		// Get arguments object
 		ArgumentsChecker.prototype.get = (oArguments)=>{
@@ -91,15 +107,32 @@ function ArgumentsChecker(bAlert)
 		// Check arguments type
 		ArgumentsChecker.prototype.types = (aExpected)=>{
 			aExpected.forEach((type, index)=>{
-				if(type){
-					let sGivenType =  getTypeWithLowerCase(this.args[index]);
+				type = type.trim();
+				let sGivenType =  getTypeWithLowerCase(this.args[index]),
+					sExpectedType = '';
 
-					if(type.toLowerCase() !== sGivenType){
-
-						if(type==='object'){type='plain object'};
+				if(oCustomType.hasOwnProperty(type)){
+					if( !oCustomType[type](sGivenType) ){
+						throwErr("ArgumentsChecker: argument " +index
+									+ " expects " + type
+									, ArgumentsChecker.prototype.types);
+					}
+				}
+				else if(type){
+					type = type.trim().toLowerCase();
+					if(type !== sGivenType){
+						if(type==='object'){
+							sExpectedType = 'plain object';
+						}
+						else{
+							sExpectedType = type;
+						}
 						if(sGivenType==='object'){sGivenType='plain object'};
 
-						throwErr("ArgumentsChecker: argument " +index+ " expects " + type + ", " + sGivenType + " given.", ArgumentsChecker.prototype.types);
+						throwErr("ArgumentsChecker: argument " +index
+									+ " expects " + type + ", "
+									+ sGivenType + " given."
+									, ArgumentsChecker.prototype.types);
 					}
 				}
 			});
@@ -107,3 +140,5 @@ function ArgumentsChecker(bAlert)
 		}
 	}
 }
+
+module.exports = ArgumentsChecker;
