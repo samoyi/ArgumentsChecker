@@ -39,7 +39,7 @@ function ArgumentsChecker(oCustomTypes={})
 		throwErr = (sErr, fnCaller)=>{
 			let sArgs = ' Arguments: [' + argsToString() + ']';
 			Error.captureStackTrace(oForStack, fnCaller);
-			console.error(sErr, '\n', oForStack.stack);
+			throw new Error(sErr, '\n', oForStack.stack);
 		}
 	}
 	else{
