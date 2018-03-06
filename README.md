@@ -14,20 +14,21 @@ thrown error in console:
 const checker = new ArgumentsChecker(true);
 ```
 
+Use `get` method
 At least 4 arguments:
 ```js
-checker.get(arguments).amount(4);
+checker.get(args).amount(4);
 ```
 
 The first 2 arguments must be array and string:
 ```js
-checker.get(arguments).types(['array', 'string']);
+checker.get(args).types(['array', 'string']);
 ```
 
 At least 5 arguments, the first must be a number, third must be a string, the
 fouth must be a plain object. The second can be any type.
 ```js
-checker.get(arguments).amount(5).types(['number', null, 'array', 'object']);
+checker.get(args).amount(5).types(['number', null, 'array', 'object']);
 ```
 
 
@@ -36,7 +37,7 @@ checker.get(arguments).amount(5).types(['number', null, 'array', 'object']);
 const checker = new ArgumentsChecker();
 
 function foo(num, str, arr){
-    checker.get(arguments).amount(5).types(['number', null, 'array', 'object']);
+    checker.get(args).amount(5).types(['number', null, 'array', 'object']);
 }
 
 foo(false, 'NaN', {});
