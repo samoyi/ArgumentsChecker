@@ -14,7 +14,16 @@ thrown error in console:
 const checker = new ArgumentsChecker(true);
 ```
 
-Use `get` method
+Use `get` method to get `arguments` object or rest parameters
+```js
+function foo(){
+    checker.get(arguments);
+}
+let bar = (...args)=>{
+    checker.get(args);
+};
+```
+
 At least 4 arguments:
 ```js
 checker.get(args).amount(4);
@@ -37,7 +46,7 @@ checker.get(args).amount(5).types(['number', null, 'array', 'object']);
 const checker = new ArgumentsChecker();
 
 function foo(num, str, arr){
-    checker.get(args).amount(5).types(['number', null, 'array', 'object']);
+    checker.get(arguments).amount(5).types(['number', null, 'array', 'object']);
 }
 
 foo(false, 'NaN', {});

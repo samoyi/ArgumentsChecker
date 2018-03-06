@@ -87,9 +87,9 @@ function ArgumentsChecker(oCustomTypes={})
 	// Methods in prototype
 	if (typeof this.amount !== 'function')
 	{
-		// Get arguments object
-		ArgumentsChecker.prototype.get = (oArguments)=>{
-			this.args = [...oArguments];
+		// Get arguments object or rest parameters
+		ArgumentsChecker.prototype.get = (args)=>{
+			this.args = [...args];
 			return this;
 		};
 

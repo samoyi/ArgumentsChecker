@@ -4,7 +4,7 @@ const assert = require('assert');
 const AC = require('../src/ArgumentsChecker');
 const ac = new AC();
 
-describe('', function() {
+describe('Checker', function() {
     it('Check arguments amount', function() {
         assert.throws(()=>{
                 ((...args)=>{
