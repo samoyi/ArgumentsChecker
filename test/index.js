@@ -2,21 +2,33 @@
 
 const assert = require('assert');
 const ArgumentsChecker = require('../src/ArgumentsChecker');
-const check = new ArgumentsChecker({
+
+const oCustomChecker = {
     positiveNumber(arg){
         return typeof arg === 'number' && arg>0;
     },
     arrayHas3Items(arg){
         return Array.isArray(arg) && arg.length===3;
     }
-});
-
-((...args)=>{
-    check.get(args).types(['positiveNumber']);
-})(1);
-
+};
 
 const check1 = new ArgumentsChecker();
+((...args)=>{
+    check1.get(args);
+})(1);
+
+const check2 = new ArgumentsChecker(oCustomChecker);
+((...args)=>{
+    check2.get(args);
+})(2);
+
+const check3 = new ArgumentsChecker();
+((...args)=>{
+    check3.get(args);
+})(3);
+
+
+
 // console.log(check1.complexTypes);
 // console.log(check);
 // console.log(check1);
@@ -31,9 +43,6 @@ const check1 = new ArgumentsChecker();
 // console.log(check1.complexTypes);
 // console.log('--------------------');
 
-((...args)=>{
-    check1.get(args).types(['positiveNumber']);
-})(2);
 
 // const check2 = new ArgumentsChecker();
 // ((...args)=>{

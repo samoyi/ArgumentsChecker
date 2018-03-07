@@ -94,8 +94,9 @@ function ArgumentsChecker(oCustomTypes={})
 	{
 		// Get arguments object or rest parameters
 		ArgumentsChecker.prototype.get = (args)=>{
-			console.log(this.complexTypes);
 			this.args = [...args];
+			console.log(this);
+			console.log('-------------');
 			return this;
 		};
 
