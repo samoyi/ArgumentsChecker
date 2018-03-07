@@ -11,18 +11,34 @@ const check = new ArgumentsChecker({
     }
 });
 
-
+((...args)=>{
+    check.get(args).types(['positiveNumber']);
+})(1);
 
 
 const check1 = new ArgumentsChecker();
-((...args)=>{
-    check1.get(args).types(['positiveNumber']);
-})(12);
+// console.log(check1.complexTypes);
+// console.log(check);
+// console.log(check1);
+// console.log('--------------------');
+// console.log(check.complexTypes);
+// console.log(check1.complexTypes);
+// console.log('--------------------');
+// console.log(check.complexTypes.positiveNumber);
+// console.log(check1.complexTypes.positiveNumber);
+// console.log('--------------------');
+// console.log(check1.__proto__);
+// console.log(check1.complexTypes);
+// console.log('--------------------');
 
-const check2 = new ArgumentsChecker();
 ((...args)=>{
     check1.get(args).types(['positiveNumber']);
-})(22);
+})(2);
+
+// const check2 = new ArgumentsChecker();
+// ((...args)=>{
+//     check1.get(args).types(['positiveNumber']);
+// })(-22);
 
 
 //

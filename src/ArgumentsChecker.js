@@ -88,11 +88,13 @@ function ArgumentsChecker(oCustomTypes={})
 		}
 	});
 
+
 	// Methods in prototype
 	if (typeof this.amount !== 'function')
 	{
 		// Get arguments object or rest parameters
 		ArgumentsChecker.prototype.get = (args)=>{
+			console.log(this.complexTypes);
 			this.args = [...args];
 			return this;
 		};
@@ -122,7 +124,8 @@ function ArgumentsChecker(oCustomTypes={})
 				type = type.trim();
 				let sGivenType =  getTypeWithLowerCase(this.args[index]),
 					sExpectedType = '';
-console.log(this);
+
+// console.log(this.complexTypes);
 				if(this.complexTypes.hasOwnProperty(type)){
 					if( !this.complexTypes[type](this.args[index]) ){
 						throwErr('ArgumentsChecker: argument ' + (index+1)
