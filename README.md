@@ -29,7 +29,9 @@ At least 4 arguments:
 checker.get(args).amount(4);
 ```
 
-The first 2 arguments must be array and string:
+The first 2 arguments must be array and string:  
+Argument of `types` must be a type string or null  
+Number type does not include `NaN`
 ```js
 checker.get(args).types(['array', 'string']);
 ```
@@ -50,27 +52,5 @@ function foo(num, str, arr){
 }
 
 foo(false, 'NaN', {});
+// Error: ArgumentsChecker: Expects at least 5 arguments, 3 given.
 ```
-
-*Console:*
-```
-ArgumentsChecker: Expects at least 5 arguments, 4 given.
- Error
-    at foo (//path2file/test.html:15:28)
-    at //path2file/test.html:18:1
-
-ArgumentsChecker: argument 0 expects number, boolean given.
- Error
-    at foo (//path2file/test.html:15:38)
-    at //path2file/test.html:18:1
-
-ArgumentsChecker: argument 2 expects array, string given.
- Error
-    at foo (//path2file/test.html:15:38)
-    at //path2file/test.html:18:1
-
-ArgumentsChecker: argument 3 expects plain object, array given.
- Error
-    at foo (//path2file/test.html:15:38)
-    at //path2file/test.html:18:1
- ```
