@@ -2,6 +2,7 @@
 *Make sure a function accepts expected parameters with correct amount and types*
 
 
+
 ## Usage
 Create an instance:
 ```js
@@ -42,6 +43,9 @@ fouth must be a plain object. The second can be any type.
 checker.get(args).amount(5).types(['number', null, 'array', 'object']);
 ```
 
+###
+You can defined complex types you want as an object, which is passed to the
+constructor.
 
 ## Example
 ```js
