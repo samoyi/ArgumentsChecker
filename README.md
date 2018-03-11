@@ -83,6 +83,31 @@ bar('1', [1, 2], ['1', '2']); // TypeError
 bar('1', [], [1, 2]); // TypeError
 ```
 
+### Nested type checker
+You can alse use a type checker in another custom type checker function, like
+this:
+```js
+const oCustomChecker = {
+    arrayHas3Items(arg){
+        return Array.isArray(arg) && arg.length===3;
+    },
+    arrayHas3NumberItems(arg){ // Nested type checker
+        try{
+            // Use 2 nested type checkers, these 2 checkers should not throw
+            // their own errors.
+            this.get([arg]).types(['arrayHas3Items']);
+            arg.forEach(item=>{
+                this.get([item]).types(['number']);
+            });
+        }
+        catch(err){
+            return false;
+        }
+        return true;
+    },
+};
+```
+
 ### Check amount and types at the same time
 Like this:
 ```js

@@ -47,10 +47,21 @@ const oCustomChecker = {
     arrayHas3Items(arg){
         return Array.isArray(arg) && arg.length===3;
     },
+    arrayHas3NumberItems(arg){
+        try{
+            this.get([arg]).types(['arrayHas3Items']);
+            arg.forEach(item=>{
+                this.get([item]).types(['number']);
+            });
+        }
+        catch(err){
+            return false;
+        }
+        return true;
+    },
 };
 
 const check = new ArgumentsChecker(oCustomChecker);
-
 
 
 describe('ArgumentsChecker', ()=>{
@@ -466,6 +477,33 @@ describe('ArgumentsChecker', ()=>{
                     }
                 );
             });
+        });
+    });
+
+    describe('Check nested checker', ()=>{
+        it('as expected', ()=>{
+            assert.doesNotThrow(
+                ()=>{
+                    ((...args)=>{
+                        check.get(args).types(['string'
+                                                    , 'arrayHas3NumberItems']);
+                    })('666', [1, 2, 3]);
+                },
+            );
+        });
+        it('wrong type', ()=>{
+            assert.throws(
+                ()=>{
+                    ((...args)=>{
+                        check.get(args).types(['string'
+                                                    , 'arrayHas3NumberItems']);
+                    })('666', [1, 2, '3']);
+                },
+                (err)=>{
+                    return err.message === 'ArgumentsChecker: argument 2 expects'
+                    + ' arrayHas3NumberItems.';
+                }
+            );
         });
     });
 
