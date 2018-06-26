@@ -1,7 +1,6 @@
 'use strict';
 
-function ArgumentsChecker(oCustomTypes={})
-{
+function ArgumentsChecker(oCustomTypes={}){
 	// Get type string of checked with lower case
 	this.getTypeWithLowerCase = (checked)=>{
 		return Object.prototype.toString.call(checked).slice(8, -1)
@@ -14,7 +13,6 @@ function ArgumentsChecker(oCustomTypes={})
 
 
 ArgumentsChecker.prototype = {
-	constructor: ArgumentsChecker,
 
 	// Get arguments object or rest parameters
 	get(args){
@@ -88,5 +86,9 @@ ArgumentsChecker.prototype = {
 		return this;
 	},
 }
+
+Object.defineProperty(ArgumentsChecker.prototype, 'constructor', {
+    value: ArgumentsChecker,
+});
 
 module.exports = ArgumentsChecker;
